@@ -32,7 +32,8 @@ isPathInside('/Users/sindresorhus/dev/unicorn', '/Users/sindresorhus');
 
 Note that relative paths are resolved against `process.cwd()` to make them absolute.
 
-**Important:** This package is meant for use with path manipulation. It does not check if the paths exist nor does it resolve symlinks. You should not use this as a security mechanism to guard against access to certain places on the file system.
+> [!IMPORTANT]
+> This package is meant for use with path manipulation. It does not check if the paths exist nor does it resolve symlinks. You should not use this as a security mechanism to guard against access to certain places on the file system.
 
 #### childPath
 
@@ -45,3 +46,15 @@ The path that should be inside `parentPath`.
 Type: `string`
 
 The path that should contain `childPath`.
+
+## Tips
+
+### Filesystem-aware checking
+
+For symlink resolution and path existence checking, combine it with `fs.realpathSync()`:
+
+```js
+import {realpathSync} from 'node:fs';
+
+isPathInside(realpathSync(childPath), realpathSync(parentPath));
+```
